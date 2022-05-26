@@ -1,16 +1,48 @@
-# This is a sample Python script.
+import os
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from bs4 import BeautifulSoup
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+def main():
+    with open("top.txt", encoding='utf-8') as fp:
+        soup = BeautifulSoup(fp, 'html.parser')
+    # table = soup.find('tbody', attrs={'class': 'criterion-channel__tbody'})
+    print("Souped it")
+    table = soup.find('tbody', attrs={'class': 'criterion-channel__tbody'})
+    print("found it")
+    ret_str = ""
+    if table:
+        cnt = 0
+        line_count = 1
+        for string in table.stripped_strings:
+            cnt += 1
+            if string == ',':
+                if cnt == 3:
+                    ret_str += ','
+                    cnt += 1
+                    print(line_count)
+                if cnt != 4:
+                    ret_str += ','
+                    print("problem " + str(cnt) + " " + str(line_count))
+                    cnt = 4
+                continue
+            ret_str += string.replace(',',';').strip() + ","
+            if cnt > 4:
+                ret_str = ret_str[:-1] + '\n'
+                cnt = 0
+                line_count += 1
+                # if line_count % 100 == 0:
+                    # print("Processed " + str(line_count))
+
+    print(ret_str)
+    # with open('helloworld.txt', 'w', encoding='ansi') as filehandle:
+    #     filehandle.write(ret_str)
+    a=10
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    main()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
