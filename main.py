@@ -27,7 +27,7 @@ def main():
                     print("problem " + str(cnt) + " " + str(line_count))
                     cnt = 4
                 continue
-            ret_str += string.replace(',',';').strip() + ","
+            ret_str += string.replace(',','&CM^').strip() + ","
             if cnt > 4:
                 ret_str = ret_str[:-1] + '\n'
                 cnt = 0
